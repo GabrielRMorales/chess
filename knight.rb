@@ -1,11 +1,10 @@
 class Knight
 
-attr_accessor :symbol
+attr_accessor :sym, :pos
 
-def initialize
-  
-@symbol="Kn"
-
+def initialize(pos, sym)
+@pos=pos
+@symb=sym
 end
 
 

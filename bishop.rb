@@ -1,11 +1,10 @@
 class Bishop
 
-attr_accessor :symbol
+attr_accessor :sym, :pos
 
-def initialize
-  
-@symbol="B"
-
+def initialize(pos, sym)
+@pos=pos
+@symb=sym
 end
 
 

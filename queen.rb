@@ -1,11 +1,10 @@
 class Queen
 
-attr_accessor :symbol
+attr_accessor :sym, :pos
 
-def initialize
-
-@symbol="Q"
-
+def initialize(pos, sym)
+@pos=pos
+@symb=sym
 end
 
 

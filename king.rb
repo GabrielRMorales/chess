@@ -1,10 +1,11 @@
 #require_relative "board.rb"
 
 class King
-attr_accessor :symbol
+attr_accessor :sym, :pos
 
 def initialize
-@symbol="K"
+#@pos=pos
+#@sym=sym
 end
 
 

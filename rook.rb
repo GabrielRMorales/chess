@@ -1,10 +1,13 @@
 class Rook
 
-attr_accessor :symbol
+attr_accessor :sym, :pos
 
-def initialize
-  
-@symbol="R"
+def initialize(pos, sym)
+@pos=pos
+@symb=sym
+end
+
+def move
 
 end
 
