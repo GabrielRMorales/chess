@@ -12,7 +12,7 @@ attr_accessor :choice, :board
 
 def initialize()
   @board=Board.new
-  @RW=Rook.new([7,1],"RW")
+  @RW=Rook.new([7,1],"RW", @board.grid)
 end
 
 def display_board
@@ -42,7 +42,8 @@ def get_new_pos
 	
   #based on what piece the user selects, use that pieces move method
   new_move = case @choice
-	when "RW" then @RW.move(@board.grid, @RW.pos)
+	when "RW" then @RW.move
+
   end
 
 end
@@ -54,7 +55,7 @@ def gameflow
 	get_user_choice
 	get_new_pos
 	display_board
-	puts @RW.pos
+	#puts @RW.pos
 end
 
 
