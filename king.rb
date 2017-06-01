@@ -3,9 +3,9 @@
 class King
 attr_accessor :sym, :pos
 
-def initialize
+def initialize(sym)
 #@pos=pos
-#@sym=sym
+@sym=sym
 end
 
 
