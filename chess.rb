@@ -8,11 +8,11 @@ require_relative "knight.rb"
 #add in serialization after
 
 class Chess
-attr_accessor :choice,:RW
+attr_accessor :choice, :board
 
-def initialize
+def initialize()
   @board=Board.new
-  @RW=Rook.new([7][1] ,"RW")
+  @RW=Rook.new([7,1],"RW")
 end
 
 def display_board
@@ -25,35 +25,40 @@ def display_board
 end
 
 def get_user_choice
-	puts "Please choose which piece to make:"
-	@choice=gets.chomp
 	valid=false
-	@board.grid.each do |x|
-		valid=true if x.include? (choice) 
-	end
 
 	while valid==false do
-	  get_user_choice
+	puts "Please choose which piece to move:"
+	@choice=gets.chomp
+	
+		@board.grid.each do |x|
+			valid=true if x.include? (@choice) 
+		end
 	end
 
 end
 
 def get_new_pos
+	
   #based on what piece the user selects, use that pieces move method
   new_move = case @choice
-	when "RW" then @RW.move
+	when "RW" then @RW.move(@board.grid, @RW.pos)
   end
-  
+
 end
 
 def gameflow
 	display_board
+	#puts "RW test is #{@RW.sym}"
+	#puts "RW pos is #{@RW.pos}"
 	get_user_choice
 	get_new_pos
+	display_board
+	puts @RW.pos
 end
 
 
 end
 
-game=Chess.new
+game=Chess.new()
 game.gameflow

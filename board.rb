@@ -3,12 +3,11 @@ require_relative "rook.rb"
 
 class Board
 
-
-attr_accessor :grid,:RW
+attr_accessor :grid
 
 def initialize	
   #set up white side
-  @RW=Rook.new([7][1] ,"RW")
+  
   
  @grid=[
  		["__","__","__","__","__","__","__","__"],
