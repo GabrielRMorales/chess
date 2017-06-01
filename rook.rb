@@ -9,7 +9,7 @@ def initialize(pos, sym, board)
 @sym=sym
 @board=board
 #set potential moves here
-#normally there are no opening moves to make
+#normally there are no opening moves to make for rook
 @moves=[]
 end
 
@@ -49,6 +49,7 @@ def find_left_moves
 	
 end
 
+#refactor this later
 def find_right_moves
 	x=self.pos[0]
 	y=self.pos[1]+1
