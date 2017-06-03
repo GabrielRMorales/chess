@@ -2,7 +2,7 @@
 
 class Rook
 
-attr_accessor :pos, :sym, :moves, :board
+attr_accessor :pos, :sym, :moves, :board, :opposition_pieces, :own_pieces
 
 def initialize(pos, sym, board)
 @pos=pos
@@ -14,7 +14,6 @@ def initialize(pos, sym, board)
 end
 
 def move
-	find_moves
 	puts "Where would you like to move this rook? Enter the coords as a 2-digit number"
 	new_pos=gets.chomp
 	x=new_pos[0].to_i
@@ -26,10 +25,12 @@ def move
 	else	 
 	  move
 	end
-	find_moves
 end
 
-def find_moves
+
+def find_moves(opposition_pieces=["RB"], own_pieces=["RW"])
+	@opposition_pieces=opposition_pieces
+	@own_pieces=own_pieces
 	#resets moves after each move
 	@moves=[]
 	find_left_moves
@@ -42,19 +43,19 @@ end
 def find_left_moves
 	x=self.pos[0]
 	y=self.pos[1]-1
-	while y!=-1 && board[x][y]=="__" do	  
-      @moves << [x,y]
+	while y!=-1 && board[x][y]!=nil do	  
+      @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
       y-=1		
 	end
-	
 end
 
 #refactor this later
 def find_right_moves
 	x=self.pos[0]
 	y=self.pos[1]+1
-	while y!=8 && board[x][y]=="__" do 
-      @moves << [x,y]
+	while y!=8 && board[x][y]!=nil do
+	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false	
+    
       y+=1		
 	end
 end
@@ -62,19 +63,20 @@ end
 def find_vertical_up_moves
 	x=self.pos[0]-1
 	y=self.pos[1]
-	while x!=-1 && board[x][y]=="__" do	  
-      @moves << [x,y]
+	while x!=-1 && board[x][y]!=nil do
+	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false       
       x-=1		
-	end	
+	end
+	
 end
 
 def find_vertical_down_moves
 	x=self.pos[0]+1
 	y=self.pos[1]
-	while x!=8 && board[x][y]=="__" do	  
-      @moves << [x,y]
+	while x!=8 && board[x][y]!=nil do
+	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false     
       x+=1		
-	end	
+	end
 end
 
 end
