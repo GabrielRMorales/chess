@@ -8,7 +8,8 @@ require_relative "knight.rb"
 #add in serialization after
 
 class Chess
-attr_accessor :choice, :board, :counter, :white_turn, :white_pieces, :black_pieces
+attr_accessor :choice, :board, :counter, :white_turn, :white_pieces, :black_pieces, :white_moves,
+:black_moves
 
 def initialize()
   @board=Board.new
@@ -24,6 +25,8 @@ def initialize()
   @black_pieces=["RB1","RB2","BB1"]
   @counter=1
   @white_turn=true
+  #black_pieces and white_pieces should be hashes with each piece name as a symbol-each will
+  #be updated only when that piece is moved
 
 end
 
@@ -119,6 +122,7 @@ def gameflow
 	get_new_pos
 	display_board
 	remove_captured
+	@RW1.get_moves
 	@counter+=1
   end
 end
