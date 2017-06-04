@@ -14,10 +14,14 @@ def initialize()
   @board=Board.new
   #you may need to update things like blakc/white pieces and the grid each time a different
   #piece captures, otherwise the different pieces won't be updated
-  @RW=Rook.new([7,1], "RW", @board.grid)
-  @RB=Rook.new([0,6], "RB", @board.grid)
-  @white_pieces=["RW"]
-  @black_pieces=["RB"]
+  @RW1=Rook.new([7,0], "RW1", @board.grid)
+  @RB1=Rook.new([0,7], "RB1", @board.grid)
+  @RW2=Rook.new([7,7], "RW2", @board.grid)
+  @RB2=Rook.new([0,0], "RB2", @board.grid)
+  @BW1=Bishop.new([7,2], "BW1", @board.grid)
+  @BB1=Bishop.new([0,5], "BB1", @board.grid)
+  @white_pieces=["RW1","RW2","BW1"]
+  @black_pieces=["RB1","RB2","BB1"]
   @counter=1
   @white_turn=true
 
@@ -53,24 +57,38 @@ def get_new_pos
   #based on what piece the user selects, use that pieces move method
   if @white_turn
     new_move = case @choice
-	  when "RW"
-	  	@RW.find_moves
-	  	@RW.move	
-	  	@RW.find_moves(@black_pieces, @white_pieces) if @counter>2
+	  when "RW1"
+	  	@RW1.find_moves(@black_pieces, @white_pieces) 
+	  	@RW1.move	
+	  	@RW1.find_moves(@black_pieces, @white_pieces) if @counter>2
+	  when "RW2"
+	  	@RW2.find_moves(@black_pieces, @white_pieces)
+	  	@RW2.move	
+	  	@RW2.find_moves(@black_pieces, @white_pieces) if @counter>2
+	  when "BW1"
+	  	@BW1.find_moves(@black_pieces, @white_pieces)
+	  	@BW1.move	
+	  	@BW1.find_moves(@black_pieces, @white_pieces) if @counter>2
     end
   elsif !@white_turn
   	new_move = case @choice
-	  when "RB"
-	  	@RB.find_moves
-	  	@RB.move
-	  	#@RB.find_moves(@white_pieces)	
+	  when "RB1"
+	  	@RB1.find_moves(@white_pieces,@black_pieces) 
+	  	@RB1.move
+	  	@RB1.find_moves(@white_pieces,@black_pieces) if @counter>2
+	  when "RB2"
+	  	@RB2.find_moves(@white_pieces,@black_pieces) 
+	  	@RB2.move
+	  	@RB2.find_moves(@white_pieces,@black_pieces) if @counter>2
+	  when "BB1"
+	  	@BB1.find_moves(@white_pieces,@black_pieces)
+	  	@BB1.move	
+	  	@BB1.find_moves(@white_pieces,@black_pieces) if @counter>2
     end
   end
 end
 
 def remove_captured
-	#go through black and white pieces. If they are not on the grid
-	#remove them from their respective list
 	@white_pieces.each do |x|
 		found=false
 		@board.grid.each { |y| 

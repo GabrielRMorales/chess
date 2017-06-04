@@ -27,8 +27,8 @@ def move
 	end
 end
 
-
-def find_moves(opposition_pieces=["RB"], own_pieces=["RW"])
+#defaults need to change for black/white
+def find_moves(opposition_pieces, own_pieces)
 	@opposition_pieces=opposition_pieces
 	@own_pieces=own_pieces
 	#resets moves after each move
@@ -54,8 +54,7 @@ def find_right_moves
 	x=self.pos[0]
 	y=self.pos[1]+1
 	while y!=8 && board[x][y]!=nil do
-	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false	
-    
+	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false	    
       y+=1		
 	end
 end
