@@ -1,6 +1,6 @@
 class Knight
 
-attr_accessor :pos, :sym, :moves, :board, :opposition_pieces, :own_pieces
+attr_accessor :pos, :sym, :moves, :board, :own_pieces
 
 def initialize(pos, sym, board)
 @pos=pos
@@ -10,7 +10,8 @@ def initialize(pos, sym, board)
 @moves=[]
 end
 
-def move	
+def move
+	puts "Where would you like to move this knight? Enter the coords as a 2-digit number"
 	new_pos=gets.chomp
 	x=new_pos[0].to_i
 	y=new_pos[1].to_i
@@ -24,8 +25,7 @@ def move
 end
 
 #defaults need to change for black/white
-def find_moves(opposition_pieces, own_pieces)
-	@opposition_pieces=opposition_pieces
+def find_moves(own_pieces)
 	@own_pieces=own_pieces
 	#resets moves after each move
 	@moves=[]

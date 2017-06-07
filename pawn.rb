@@ -1,50 +1,66 @@
 class Pawn
 
-attr_accessor :pos, :sym, :moves, :board, :opposition_pieces, :own_pieces
+attr_accessor :pos, :sym, :moves, :board, :opposition_pieces, :is_white, :first_turn
 
-def initialize(pos, sym, board)
+def initialize(pos, sym, board, is_white)
 @pos=pos
 @sym=sym
 @board=board
-#set potential moves here
-@moves=[]
+#is_white should be either true or false
+@is_white=is_white
+@first_turn=true
 end
 
-#change move and find_moves accordingly-it can only move one forward, but captures diagonally forward
-#set a counter for turn 1-if its the first turn, it can move two spaces
-#needs different pawns moves for black and white
-def move	
+def move(opposition_pieces)
+	@opposition_pieces=opposition_pieces
+	#resets moves after each move
+	@moves=[]
+	@is_white==true? move_white : move_black
+	@first_turn=false
+end
+
+def move_white	
+	x=self.pos[0]-1
+	y=self.pos[1]
+	@moves << [x-1,y] if @first_turn==true && board[x][y+1]=="___"
+    @moves << [x,y] if board[x][y]=="___"
+    @moves << [x,y+1] if @opposition_pieces.include? (board[x][y+1])
+    @moves << [x,y-1] if @opposition_pieces.include? (board[x][y-1])
+	puts "moves: #{@moves}"
+	puts "Where would you like to move this pawn? Enter the coords as a 2-digit number"
 	new_pos=gets.chomp
 	x=new_pos[0].to_i
-	y=new_pos[1].to_i
+	y=new_pos[1].to_i	
 	if @moves.include? ([x,y])
 	  board[x][y]=self.sym
 	  board[self.pos[0]][self.pos[1]]="___"
 	  self.pos=[x,y]
 	else	 
-	  move
+	  move_white
 	end
 end
 
-#defaults need to change for black/white
-def find_moves(opposition_pieces, own_pieces)
-	@opposition_pieces=opposition_pieces
-	@own_pieces=own_pieces
-	#resets moves after each move
-	@moves=[]
-	
+def move_black
+	x=self.pos[0]+1
+	y=self.pos[1]
+	@moves << [x+1,y] if @first_turn==true && board[x][y+1]=="___"	
+    @moves << [x,y] if board[x][y]=="___"
+    @moves << [x,y+1] if @opposition_pieces.include? (board[x][y+1])
+    @moves << [x,y-1] if @opposition_pieces.include? (board[x][y-1])
 	puts "moves: #{@moves}"
-end
-
-def find_forward_moves
-	x=self.pos[0]
-	y=self.pos[1]-1
-	while y>-1 && board[x][y]!=nil do	  
-      @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
-      #needs this line to prevent it from going on
-      y=-1 if (@own_pieces.include? (board[x][y])) ==true
-      y-=1		
+	puts "Where would you like to move this pawn? Enter the coords as a 2-digit number"
+	new_pos=gets.chomp
+	x=new_pos[0].to_i
+	y=new_pos[1].to_i	
+	if @moves.include? ([x,y])
+	  board[x][y]=self.sym
+	  board[self.pos[0]][self.pos[1]]="___"
+	  self.pos=[x,y]
+	else	 
+	  move_black
 	end
 end
+
+
 
 end

@@ -17,12 +17,16 @@ def initialize()
   #piece captures, otherwise the different pieces won't be updated
   @RW1=Rook.new([7,0], "RW1", @board.grid)
   @RB1=Rook.new([0,7], "RB1", @board.grid)
+
   @RW2=Rook.new([7,7], "RW2", @board.grid)
   @RB2=Rook.new([0,0], "RB2", @board.grid)
+
   @BW1=Bishop.new([7,2], "BW1", @board.grid)
   @BB1=Bishop.new([0,5], "BB1", @board.grid)
+
   @white_pieces=["RW1","RW2","BW1"]
   @black_pieces=["RB1","RB2","BB1"]
+  
   @counter=1
   @white_turn=true
   #black_pieces and white_pieces should be hashes with each piece name as a symbol-each will

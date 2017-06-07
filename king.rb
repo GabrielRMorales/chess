@@ -15,7 +15,7 @@ end
 #change the move/find_moves methods to check against possible checks-essentially it cannot move
 #into a move included in the black/white moves hash in the chess.rb
 def move
-	puts "Where would you like to move this King? Enter the coords as a 2-digit number"
+	puts "Where would you like to move this king? Enter the coords as a 2-digit number"
 	new_pos=gets.chomp
 	x=new_pos[0].to_i
 	y=new_pos[1].to_i
