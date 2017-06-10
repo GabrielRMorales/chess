@@ -28,17 +28,18 @@ def move
 	end
 end
 
-def find_moves(opposition_pieces, own_pieces)
-	@opposition_pieces=opposition_pieces
+def find_moves(own_pieces)
 	@own_pieces=own_pieces
 	#resets moves after each move
 	@moves=[]
-	find_left_moves
-	find_right_moves
-	find_vertical_up_moves
-	find_vertical_down_moves
+	x=self.pos[0]
+	y=self.pos[1]-1
+	while y>-1 && board[x][y]!=nil do	  
+      @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
+      #needs this line to prevent it from going on
+      y=-1 if (@own_pieces.include? (board[x][y])) ==true
+      y-=1		
+	end
 	puts "moves: #{@moves}"
-end
-
 
 end

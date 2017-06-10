@@ -7,6 +7,7 @@ def initialize(pos, sym, board)
 @sym=sym
 @board=board
 #set potential moves here
+#defaults need to change for black/white
 @moves=[]
 end
 
@@ -24,7 +25,7 @@ def move
 	end
 end
 
-#defaults need to change for black/white
+
 def find_moves(own_pieces)
 	@own_pieces=own_pieces
 	#resets moves after each move

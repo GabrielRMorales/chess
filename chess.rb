@@ -26,7 +26,7 @@ def initialize()
 
   @white_pieces=["RW1","RW2","BW1"]
   @black_pieces=["RB1","RB2","BB1"]
-  
+
   @counter=1
   @white_turn=true
   #black_pieces and white_pieces should be hashes with each piece name as a symbol-each will
@@ -126,7 +126,8 @@ def gameflow
 	get_new_pos
 	display_board
 	remove_captured
-	@RW1.get_moves
+	#test this .get_moves to get the moves that would be added to the check_moves_to_avoid hash
+	#@RW1.get_moves
 	@counter+=1
   end
 end

@@ -43,6 +43,7 @@ def find_leftup_moves
 	y=self.pos[1]-1
 	while x!>-1 && y>-1 && board[x][y]!=nil do	  
       @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
+      x=-1 if (@own_pieces.include? (board[x][y])) ==true
       x-=1
       y-=1		
 	end
@@ -53,6 +54,7 @@ def find_rightup_moves
 	y=self.pos[1]+1
 	while x>-1 && y<8 && board[x][y]!=nil do	  
       @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
+      x=-1 if (@own_pieces.include? (board[x][y])) ==true
       x-=1
       y+=1		
 	end
@@ -63,6 +65,7 @@ def find_rightdown_moves
 	y=self.pos[1]+1
 	while x<8 && y<8 && board[x][y]!=nil do	  
       @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
+      x=8 if (@own_pieces.include? (board[x][y])) ==true
       x+=1
       y+=1		
 	end
@@ -73,6 +76,7 @@ def find_leftdown_moves
 	y=self.pos[1]-1
 	while x<8 && y!=-1 && board[x][y]!=nil do	  
       @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
+      x=8 if (@own_pieces.include? (board[x][y])) ==true
       x+=1
       y-=1		
 	end
