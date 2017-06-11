@@ -42,9 +42,6 @@ def find_moves(own_pieces)
     @moves << [x-1,y-2] if (@own_pieces.include? (board[x-1][y-2])) ==false && board[x-1][y-2]!=nil
     @moves << [x-2,y+1] if (@own_pieces.include? (board[x-2][y+1])) ==false && board[x-2][y+1]!=nil
     @moves << [x-2,y-1] if (@own_pieces.include? (board[x-2][y-1])) ==false && board[x-2][y-1]!=nil
-
-
-	end
 	puts "moves: #{@moves}"
 end
 

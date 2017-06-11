@@ -33,13 +33,20 @@ def find_moves(own_pieces)
 	#resets moves after each move
 	@moves=[]
 	x=self.pos[0]
-	y=self.pos[1]-1
-	while y>-1 && board[x][y]!=nil do	  
-      @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
-      #needs this line to prevent it from going on
-      y=-1 if (@own_pieces.include? (board[x][y])) ==true
-      y-=1		
-	end
+	y=self.pos[1]
+
+    @moves << [x-1,y-1] if  x-1>-1 && y-1>-1 && (@own_pieces.include? (board[x-1][y-1])) ==false
+    @moves << [x-1,y] if  x-1>-1 && (@own_pieces.include? (board[x-1][y])) ==false
+    @moves << [x-1,y+1] if x-1>-1 && y+1<8 && (@own_pieces.include? (board[x-1][y+1])) ==false
+    @moves << [x,y-1] if y-1>-1 && (@own_pieces.include? (board[x][y-1])) ==false
+    @moves << [x,y+1] if y+1<8 && (@own_pieces.include? (board[x][y+1])) ==false
+    @moves << [x+1,y-1] if x+1<8 && y-1>-1 && (@own_pieces.include? (board[x+1][y-1]))==false 
+    @moves << [x+1,y] if x+1<8 && (@own_pieces.include? (board[x+1][y])) ==false
+    @moves << [x+1,y+1] if x+1<8 && y+1<8 && (@own_pieces.include? (board[x+1][y+1])) ==false
+
 	puts "moves: #{@moves}"
+end
+
+
 
 end

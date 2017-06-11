@@ -6,10 +6,13 @@ require_relative "rook.rb"
 require_relative "bishop.rb"
 require_relative "knight.rb"
 #add in serialization after
-
+#pieces must alert if the king is in check
+#king must determine if it will be in check (based on potential moves of other pieces) and not allow these moves
+#set up game flow such that it keeps going until a certain point
 class Chess
 attr_accessor :choice, :board, :counter, :white_turn, :white_pieces, :black_pieces, :white_moves,
 :black_moves
+
 
 def initialize()
   @board=Board.new
@@ -17,6 +20,8 @@ def initialize()
   #piece captures, otherwise the different pieces won't be updated
   @RW1=Rook.new([7,0], "RW1", @board.grid)
   @RB1=Rook.new([0,7], "RB1", @board.grid)
+  @K_W=King.new([7,4], "K_W", @board.grid)
+  @K_B=King.new([0,4], "K_B", @board.grid)
 
   @RW2=Rook.new([7,7], "RW2", @board.grid)
   @RB2=Rook.new([0,0], "RB2", @board.grid)
@@ -24,8 +29,8 @@ def initialize()
   @BW1=Bishop.new([7,2], "BW1", @board.grid)
   @BB1=Bishop.new([0,5], "BB1", @board.grid)
 
-  @white_pieces=["RW1","RW2","BW1"]
-  @black_pieces=["RB1","RB2","BB1"]
+  @white_pieces=["RW1","RW2","K_W", "BW1"]
+  @black_pieces=["RB1","RB2","K_B", "BB1"]
 
   @counter=1
   @white_turn=true
@@ -65,32 +70,40 @@ def get_new_pos
   if @white_turn
     new_move = case @choice
 	  when "RW1"
-	  	@RW1.find_moves(@black_pieces, @white_pieces) 
+	  	@RW1.find_moves(@black_pieces, @white_pieces) if @counter<2
 	  	@RW1.move	
-	  	@RW1.find_moves(@black_pieces, @white_pieces) if @counter>2
+	  	@RW1.find_moves(@black_pieces, @white_pieces) 
 	  when "RW2"
-	  	@RW2.find_moves(@black_pieces, @white_pieces)
+	  	@RW2.find_moves(@black_pieces, @white_pieces) if @counter<2
 	  	@RW2.move	
-	  	@RW2.find_moves(@black_pieces, @white_pieces) if @counter>2
+	  	@RW2.find_moves(@black_pieces, @white_pieces)
+	  when "K_W"
+	  	@K_W.find_moves(@white_pieces) if @counter<2
+	  	@K_W.move	
+	  	@K_W.find_moves(@white_pieces)	
 	  when "BW1"
-	  	@BW1.find_moves(@black_pieces, @white_pieces)
+	  	@BW1.find_moves(@black_pieces, @white_pieces) if @counter<2
 	  	@BW1.move	
-	  	@BW1.find_moves(@black_pieces, @white_pieces) if @counter>2
+	  	@BW1.find_moves(@black_pieces, @white_pieces) 
     end
   elsif !@white_turn
   	new_move = case @choice
 	  when "RB1"
-	  	@RB1.find_moves(@white_pieces,@black_pieces) 
+	  	@RB1.find_moves(@white_pieces,@black_pieces) if @counter<2
 	  	@RB1.move
-	  	@RB1.find_moves(@white_pieces,@black_pieces) if @counter>2
+	  	@RB1.find_moves(@white_pieces,@black_pieces)
 	  when "RB2"
-	  	@RB2.find_moves(@white_pieces,@black_pieces) 
+	  	@RB2.find_moves(@white_pieces,@black_pieces) if @counter<2
 	  	@RB2.move
-	  	@RB2.find_moves(@white_pieces,@black_pieces) if @counter>2
+	  	@RB2.find_moves(@white_pieces,@black_pieces)
+	  when "K_B"
+	  	@K_B.find_moves(@white_pieces) if @counter<2
+	  	@K_B.move	
+	  	@K_B.find_moves(@white_pieces)
 	  when "BB1"
-	  	@BB1.find_moves(@white_pieces,@black_pieces)
+	  	@BB1.find_moves(@white_pieces,@black_pieces) if @counter<2
 	  	@BB1.move	
-	  	@BB1.find_moves(@white_pieces,@black_pieces) if @counter>2
+	  	@BB1.find_moves(@white_pieces,@black_pieces)
     end
   end
 end

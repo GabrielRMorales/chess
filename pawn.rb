@@ -15,7 +15,7 @@ def move(opposition_pieces)
 	@opposition_pieces=opposition_pieces
 	#resets moves after each move
 	@moves=[]
-	@is_white==true? move_white : move_black
+	@is_white==true ? move_white : move_black
 	@first_turn=false
 end
 
