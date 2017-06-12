@@ -85,5 +85,8 @@ def find_leftdown_moves
 	end
 end
 
+def get_moves
+	@moves
+end
 
 end

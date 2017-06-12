@@ -67,6 +67,8 @@ def move_black
 	end
 end
 
-
+def get_moves
+	@moves
+end
 
 end

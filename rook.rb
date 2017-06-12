@@ -45,7 +45,7 @@ def find_moves(opposition_pieces, own_pieces)
 end
 
 def get_moves
-	puts "moves are #{@moves}"
+	@moves
 end
 
 def find_left_moves

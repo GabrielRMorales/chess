@@ -1,12 +1,13 @@
 #require_relative "board.rb"
 class King
 
-attr_accessor :pos, :sym, :moves, :board, :opposition_pieces, :own_pieces
+attr_accessor :pos, :sym, :moves, :board, :opp_moves, :own_pieces
 
 def initialize(pos, sym, board)
 @pos=pos
 @sym=sym
 @board=board
+
 #set potential moves here
 #normally there are no opening moves to make for King
 @moves=[]
@@ -28,8 +29,9 @@ def move
 	end
 end
 
-def find_moves(own_pieces)
+def find_moves(own_pieces, opp_moves)
 	@own_pieces=own_pieces
+	@opp_moves=opp_moves
 	#resets moves after each move
 	@moves=[]
 	x=self.pos[0]
@@ -44,7 +46,16 @@ def find_moves(own_pieces)
     @moves << [x+1,y] if x+1<8 && (@own_pieces.include? (board[x+1][y])) ==false
     @moves << [x+1,y+1] if x+1<8 && y+1<8 && (@own_pieces.include? (board[x+1][y+1])) ==false
 
-	puts "moves: #{@moves}"
+    #puts "opp_moves are #{@opp_moves}"
+    @moves.each do |y|
+      @opp_moves.each do |key, value|
+        puts "y: #{y} value: #{value}"
+        puts "Yes" if value.include? (y)==true
+      end
+    end
+
+	puts "available moves: #{@moves}"
+
 	@moves.each do |x|
 		puts "King is in check" if board[x[0]][x[1]]=="K_W" || board[x[0]][x[1]]=="K_B"
 	end

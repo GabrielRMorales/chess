@@ -48,7 +48,8 @@ def find_moves(own_pieces)
 	puts "moves: #{@moves}"
 end
 
-
-
+def get_moves
+	@moves
+end
 
 end

@@ -39,6 +39,9 @@ def find_moves(opposition_pieces, own_pieces)
 	find_leftdown_moves
 	find_rightdown_moves
 	puts "moves: #{@moves}"
+	@moves.each do |x|
+		puts "King is in check" if board[x[0]][x[1]]=="K_W" || board[x[0]][x[1]]=="K_B"
+	end
 end
 
 def find_left_moves
@@ -124,6 +127,10 @@ def find_leftdown_moves
       x+=1
       y-=1		
 	end
+end
+
+def get_moves
+	@moves
 end
 
 end

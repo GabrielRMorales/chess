@@ -16,6 +16,9 @@ attr_accessor :choice, :board, :counter, :white_turn, :white_pieces, :black_piec
 
 def initialize()
   @board=Board.new
+
+  @white_moves={"RW1"=> [], "RW2"=>[], "K_W"=>[] }
+  @black_moves={ "RB1"=> [], "RW2"=>[], "K_B"=>[] } 
   #you may need to update things like blakc/white pieces and the grid each time a different
   #piece captures, otherwise the different pieces won't be updated
   @RW1=Rook.new([7,0], "RW1", @board.grid)
@@ -35,6 +38,7 @@ def initialize()
   @white_pieces=["PW1", "RW1","RW2","K_W","BW1"]
   @black_pieces=["PB1", "RB1","RB2","K_B","BB1"]
 
+ 
   @counter=1
   @white_turn=true
   #black_pieces and white_pieces should be hashes with each piece name as a symbol-each will
@@ -77,15 +81,20 @@ def get_new_pos
 	  when "RW1"
 	  	@RW1.find_moves(@black_pieces, @white_pieces)
 	  	@RW1.move	
-	  	@RW1.find_moves(@black_pieces, @white_pieces) 
+	  	@RW1.find_moves(@black_pieces, @white_pieces)
+	  	@white_moves[@RW1.sym]=@RW1.get_moves
+	  	print "White moves #{@white_moves}"
 	  when "RW2"
 	  	@RW2.find_moves(@black_pieces, @white_pieces)
 	  	@RW2.move	
 	  	@RW2.find_moves(@black_pieces, @white_pieces)
+	  	@white_moves[@RW2.sym]=@RW2.get_moves
+	  	print "White moves #{@white_moves}"
 	  when "K_W"
-	  	@K_W.find_moves(@white_pieces) if @counter<3
+	  	@K_W.find_moves(@white_pieces, @black_moves) if @counter<3
 	  	@K_W.move	
-	  	@K_W.find_moves(@white_pieces)	
+	  	@K_W.find_moves(@white_pieces, @black_moves)
+	  	@white_moves[@K_W.sym]=@K_W.get_moves	
 	  when "BW1"
 	  	@BW1.find_moves(@black_pieces, @white_pieces) if @counter<3
 	  	@BW1.move	
@@ -104,9 +113,10 @@ def get_new_pos
 	  	@RB2.move
 	  	@RB2.find_moves(@white_pieces,@black_pieces)
 	  when "K_B"
-	  	@K_B.find_moves(@black_pieces) if @counter<3
+	  	@K_B.find_moves(@black_pieces,@white_moves) if @counter<3
+	  	puts "@white_moves #{@white_moves}"
 	  	@K_B.move	
-	  	@K_B.find_moves(@black_pieces)
+	  	@K_B.find_moves(@black_pieces,@white_moves)
 	  when "BB1"
 	  	@BB1.find_moves(@white_pieces,@black_pieces) if @counter<3
 	  	@BB1.move	
