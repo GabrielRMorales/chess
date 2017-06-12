@@ -75,11 +75,11 @@ def get_new_pos
       when "PW1"
 	  	@PW1.move(@black_pieces)
 	  when "RW1"
-	  	@RW1.find_moves(@black_pieces, @white_pieces) if @counter<3
+	  	@RW1.find_moves(@black_pieces, @white_pieces)
 	  	@RW1.move	
 	  	@RW1.find_moves(@black_pieces, @white_pieces) 
 	  when "RW2"
-	  	@RW2.find_moves(@black_pieces, @white_pieces) if @counter<3
+	  	@RW2.find_moves(@black_pieces, @white_pieces)
 	  	@RW2.move	
 	  	@RW2.find_moves(@black_pieces, @white_pieces)
 	  when "K_W"
@@ -96,11 +96,11 @@ def get_new_pos
   	  when "PB1"
 	  	@PB1.move(@white_pieces)
 	  when "RB1"
-	  	@RB1.find_moves(@white_pieces,@black_pieces) if @counter<3
+	  	@RB1.find_moves(@white_pieces,@black_pieces) 
 	  	@RB1.move
 	  	@RB1.find_moves(@white_pieces,@black_pieces)
 	  when "RB2"
-	  	@RB2.find_moves(@white_pieces,@black_pieces) if @counter<3
+	  	@RB2.find_moves(@white_pieces,@black_pieces)
 	  	@RB2.move
 	  	@RB2.find_moves(@white_pieces,@black_pieces)
 	  when "K_B"

@@ -45,6 +45,9 @@ def find_moves(own_pieces)
     @moves << [x+1,y+1] if x+1<8 && y+1<8 && (@own_pieces.include? (board[x+1][y+1])) ==false
 
 	puts "moves: #{@moves}"
+	@moves.each do |x|
+		puts "King is in check" if board[x[0]][x[1]]=="K_W" || board[x[0]][x[1]]=="K_B"
+	end
 end
 
 
