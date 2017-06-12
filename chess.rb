@@ -114,7 +114,6 @@ def get_new_pos
 	  	@RB2.find_moves(@white_pieces,@black_pieces)
 	  when "K_B"
 	  	@K_B.find_moves(@black_pieces,@white_moves) if @counter<3
-	  	puts "@white_moves #{@white_moves}"
 	  	@K_B.move	
 	  	@K_B.find_moves(@black_pieces,@white_moves)
 	  when "BB1"
