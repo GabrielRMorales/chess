@@ -45,8 +45,10 @@ def find_moves(own_pieces, opp_moves)
     @moves << [x+1,y-1] if x+1<8 && y-1>-1 && (@own_pieces.include? (board[x+1][y-1]))==false 
     @moves << [x+1,y] if x+1<8 && (@own_pieces.include? (board[x+1][y])) ==false
     @moves << [x+1,y+1] if x+1<8 && y+1<8 && (@own_pieces.include? (board[x+1][y+1])) ==false
+    
     check_moves=[]
-    puts "moves right now #{@moves}"
+    #puts "moves right now #{@moves}"
+    #puts "opp_moves #{@opp_moves}"
     @moves.each do |y|
       @opp_moves.each do |key, value|
         if (value.include?(y)==true)
@@ -55,12 +57,15 @@ def find_moves(own_pieces, opp_moves)
       end
     end
     @moves-=check_moves
+    #puts "check_moves: #{check_moves}"
 	puts "moves: #{@moves}"
 	@moves.each do |x|
 		puts "King is in check" if board[x[0]][x[1]]=="K_W" || board[x[0]][x[1]]=="K_B"
 	end
 end
 
-
+def get_moves
+	@moves
+end
 
 end

@@ -44,10 +44,6 @@ def find_moves(opposition_pieces, own_pieces)
 	end
 end
 
-def get_moves
-	@moves
-end
-
 def find_left_moves
 	x=self.pos[0]
 	y=self.pos[1]-1
@@ -74,7 +70,8 @@ def find_vertical_up_moves
 	x=self.pos[0]-1
 	y=self.pos[1]
 	while x>-1 && board[x][y]!=nil do
-	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false       
+	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false   
+	  x=0 if (@own_pieces.include? (board[x][y])) ==true     
       x-=1		
 	end
 	
@@ -84,9 +81,14 @@ def find_vertical_down_moves
 	x=self.pos[0]+1
 	y=self.pos[1]
 	while x<8 && board[x][y]!=nil do
-	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false     
+	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
+	  x=0 if (@own_pieces.include? (board[x][y])) ==true   
       x+=1		
 	end
+end
+
+def get_moves
+	@moves
 end
 
 end

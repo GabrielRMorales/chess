@@ -11,18 +11,18 @@ require_relative "knight.rb"
 #set up game flow such that it keeps going until a certain point
 class Chess
 attr_accessor :choice, :board, :counter, :white_turn, :white_pieces, :black_pieces, :white_moves,
-:black_moves
-
+:black_moves, :gameover
 
 def initialize()
+  @gameover=false
   @board=Board.new
+  #set @white_moves and @black_moves at the beginning-they will update for x piece when x piece moves
+  @white_moves={"PW1"=>[], "RW1"=>[], "RW2"=>[], "K_W"=>[], "BW1"=>[] }
+  @black_moves={"PB1"=>[], "RB1"=>[], "RW2"=>[], "K_B"=>[], "BB1"=>[] }
 
-  @white_moves={"RW1"=> [], "RW2"=>[], "K_W"=>[] }
-  @black_moves={ "RB1"=> [], "RW2"=>[], "K_B"=>[] } 
-  #you may need to update things like blakc/white pieces and the grid each time a different
-  #piece captures, otherwise the different pieces won't be updated
   @RW1=Rook.new([7,0], "RW1", @board.grid)
   @RB1=Rook.new([0,7], "RB1", @board.grid)
+
   @PW1=Pawn.new([6,0], "PW1", @board.grid, true)
   @PB1=Pawn.new([1,0], "PB1", @board.grid, true)
 
@@ -35,8 +35,8 @@ def initialize()
   @BW1=Bishop.new([7,2], "BW1", @board.grid)
   @BB1=Bishop.new([0,5], "BB1", @board.grid)
 
-  @white_pieces=["PW1", "RW1","RW2","K_W","BW1"]
-  @black_pieces=["PB1", "RB1","RB2","K_B","BB1"]
+  @white_pieces=["PW1","RW1","RW2","K_W","BW1"]
+  @black_pieces=["PB1","RB1","RB2","K_B","BB1"]
 
  
   @counter=1
@@ -63,7 +63,6 @@ def get_user_choice
 	@choice=gets.chomp
 	if @white_turn==true
 	  valid=true if @white_pieces.include? (@choice)
-
 	elsif @white_turn==false	
 	  valid=true if @black_pieces.include? (@choice)
 	end
@@ -78,48 +77,55 @@ def get_new_pos
     new_move = case @choice
       when "PW1"
 	  	@PW1.move(@black_pieces)
+	  	@white_moves[@PW1.sym]=@PW1.get_moves	
 	  when "RW1"
 	  	@RW1.find_moves(@black_pieces, @white_pieces)
 	  	@RW1.move	
 	  	@RW1.find_moves(@black_pieces, @white_pieces)
 	  	@white_moves[@RW1.sym]=@RW1.get_moves
-	  	print "White moves #{@white_moves}"
+	  	#print "White moves #{@white_moves}"
 	  when "RW2"
 	  	@RW2.find_moves(@black_pieces, @white_pieces)
 	  	@RW2.move	
 	  	@RW2.find_moves(@black_pieces, @white_pieces)
 	  	@white_moves[@RW2.sym]=@RW2.get_moves
-	  	print "White moves #{@white_moves}"
+	  	#print "White moves #{@white_moves}"
 	  when "K_W"
-	  	@K_W.find_moves(@white_pieces, @black_moves) if @counter<3
+	  	@K_W.find_moves(@white_pieces, @black_moves)
 	  	@K_W.move	
 	  	@K_W.find_moves(@white_pieces, @black_moves)
 	  	@white_moves[@K_W.sym]=@K_W.get_moves	
 	  when "BW1"
-	  	@BW1.find_moves(@black_pieces, @white_pieces) if @counter<3
+	  	@BW1.find_moves(@black_pieces, @white_pieces) 
 	  	@BW1.move	
 	  	@BW1.find_moves(@black_pieces, @white_pieces) 
+	  	@white_moves[@BW1.sym]=@BW1.get_moves	
     end
   elsif !@white_turn
   	new_move = case @choice
   	  when "PB1"
 	  	@PB1.move(@white_pieces)
+	  	@black_moves[@PB1.sym]=@PB1.get_moves
 	  when "RB1"
 	  	@RB1.find_moves(@white_pieces,@black_pieces) 
 	  	@RB1.move
 	  	@RB1.find_moves(@white_pieces,@black_pieces)
+	  	@black_moves[@RB1.sym]=@RB1.get_moves
 	  when "RB2"
 	  	@RB2.find_moves(@white_pieces,@black_pieces)
 	  	@RB2.move
 	  	@RB2.find_moves(@white_pieces,@black_pieces)
+	  	@black_moves[@RB2.sym]=@RB2.get_moves
 	  when "K_B"
-	  	@K_B.find_moves(@black_pieces,@white_moves) if @counter<3
+	  	@K_B.find_moves(@black_pieces,@white_moves)
 	  	@K_B.move	
 	  	@K_B.find_moves(@black_pieces,@white_moves)
+	  	@black_moves[@K_B.sym]=@K_B.get_moves
 	  when "BB1"
-	  	@BB1.find_moves(@white_pieces,@black_pieces) if @counter<3
-	  	@BB1.move	
 	  	@BB1.find_moves(@white_pieces,@black_pieces)
+	  	@BB1.move
+	  	@BB1.find_moves(@white_pieces,@black_pieces)
+	  	@black_moves[@BB1.sym]=@BB1.get_moves
     end
   end
 end
@@ -129,8 +135,13 @@ def remove_captured
 		found=false
 		@board.grid.each { |y| 
 			found=true if y.include? x
+
 		}
 		@white_pieces.delete(x) if found==false
+		if x=="K_W" && found==false
+			@gameover=true 
+			puts "Black wins!"
+		end
 	end
 
 	@black_pieces.each do |x|
@@ -139,24 +150,24 @@ def remove_captured
 			found=true if y.include? x
 		}
 		@black_pieces.delete(x) if found==false
+		if x=="K_B" && found==false
+			@gameover=true 
+			puts "White wins!"
+		end
 	end
-	puts @white_pieces
-	puts @black_pieces
+	#puts @white_pieces
+	#puts @black_pieces
 
 end
 
 def gameflow
-  #set this to while gameover==false
-  #once conditions in game change you can make gameover=true
-  while @counter<4
-	@counter % 2 ==0 ? @white_turn=false : @white_turn=true
 	display_board
+  while @gameover==false
+	@counter % 2 ==0 ? @white_turn=false : @white_turn=true
 	get_user_choice
 	get_new_pos
 	display_board
 	remove_captured
-	#test this .get_moves to get the moves that would be added to the check_moves_to_avoid hash
-	#@RW1.get_moves
 	@counter+=1
   end
 end
