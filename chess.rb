@@ -174,16 +174,21 @@ def king_in_check
 			 @king_is_in_check=true
 		end
 	end
-
-	#Now alter get_user_choice such that player must move K_B/K_W if their king is in check
-	#by saying on turn @counter+=1 get_user_choice must move the king out of check or block the check
-
 	puts "white moves: #{@white_moves}"
 	puts "black moves: #{@black_moves}"
 end
 
 def is_draw
-	if @king_is_in_check==false && (@white_moves.all.include? [] || @black_moves.all.include? [])
+	b_moves_available=true
+	w_moves_available=true
+	  @white_moves.each do |x,y|
+        w_moves_available=false if y.empty? == false
+      end
+       @black_moves.each do |x,y|
+        b_moves_available=false if y.empty? == false
+      end
+
+	if @king_is_in_check==false && (b_moves_available==false || w_moves_available==false)
 		@gameover=true
 		puts "Game is a Draw"
 	elsif @white_pieces==["K_W"] && @black_pieces==["K_B"]		

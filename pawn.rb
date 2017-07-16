@@ -27,9 +27,7 @@ def move_white
     @moves << [x,y+1] if @opposition_pieces.include? (board[x][y+1])
     @moves << [x,y-1] if @opposition_pieces.include? (board[x][y-1])
 	puts "moves: #{@moves}"
-	#@moves.each do |x|
-	#	puts "King is in check" if board[x[0]][x[1]]=="K_W" || board[x[0]][x[1]]=="K_B"
-	#end
+	
 	puts "Where would you like to move this pawn? Enter the coords as a 2-digit number"
 	new_pos=gets.chomp
 	x=new_pos[0].to_i

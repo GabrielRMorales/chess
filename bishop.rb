@@ -35,9 +35,7 @@ def find_moves(opposition_pieces, own_pieces)
 	find_rightup_moves
 	find_leftdown_moves
 	find_rightdown_moves
-	#@moves.each do |x|
-	#	puts "King is in check" if board[x[0]][x[1]]=="K_W" || board[x[0]][x[1]]=="K_B"
-	#end
+	
 	puts "moves: #{@moves}"
 end
 
