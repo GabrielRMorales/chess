@@ -11,10 +11,11 @@ require_relative "knight.rb"
 #set up game flow such that it keeps going until a certain point
 class Chess
 attr_accessor :choice, :board, :counter, :white_turn, :white_pieces, :black_pieces, :white_moves,
-:black_moves, :gameover
+:black_moves, :gameover, :king_is_in_check
 
 def initialize()
   @gameover=false
+  @king_is_in_check=false
   @board=Board.new
   #set @white_moves and @black_moves at the beginning-they will update for x piece when x piece moves
   @white_moves={"PW1"=>[], "RW1"=>[], "RW2"=>[], "K_W"=>[], "BW1"=>[] }
@@ -155,9 +156,40 @@ def remove_captured
 			puts "White wins!"
 		end
 	end
-	#puts @white_pieces
-	#puts @black_pieces
 
+end
+
+def king_in_check
+
+	@white_moves.each do |x,y|
+		y.each do |z|
+			puts "Black King is in check" if @board.grid[z[0]][z[1]]=="K_B"
+			 @king_is_in_check=true
+		end
+	end
+
+	@black_moves.each do |x,y|
+		y.each do |z|
+			puts "Black King is in check" if @board.grid[z[0]][z[1]]=="K_W"
+			 @king_is_in_check=true
+		end
+	end
+
+	#Now alter get_user_choice such that player must move K_B/K_W if their king is in check
+	#by saying on turn @counter+=1 get_user_choice must move the king out of check or block the check
+
+	puts "white moves: #{@white_moves}"
+	puts "black moves: #{@black_moves}"
+end
+
+def is_draw
+	if @king_is_in_check==false && (@white_moves.all.include? [] || @black_moves.all.include? [])
+		@gameover=true
+		puts "Game is a Draw"
+	elsif @white_pieces==["K_W"] && @black_pieces==["K_B"]		
+		@gameover=true
+		puts "Game is a Draw"
+	end
 end
 
 def gameflow
@@ -167,6 +199,8 @@ def gameflow
 	get_user_choice
 	get_new_pos
 	display_board
+	king_in_check
+	is_draw
 	remove_captured
 	@counter+=1
   end

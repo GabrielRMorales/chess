@@ -59,9 +59,9 @@ def find_moves(own_pieces, opp_moves)
     @moves-=check_moves
     #puts "check_moves: #{check_moves}"
 	puts "moves: #{@moves}"
-	@moves.each do |x|
-		puts "King is in check" if board[x[0]][x[1]]=="K_W" || board[x[0]][x[1]]=="K_B"
-	end
+	#@moves.each do |x|
+	#	puts "King is in check" if board[x[0]][x[1]]=="K_W" || board[x[0]][x[1]]=="K_B"
+	#end
 end
 
 def get_moves

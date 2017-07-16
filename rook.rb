@@ -39,9 +39,9 @@ def find_moves(opposition_pieces, own_pieces)
 	find_vertical_up_moves
 	find_vertical_down_moves
 	puts "moves: #{@moves}"
-	@moves.each do |x|
-		puts "King is in check" if board[x[0]][x[1]]=="K_W" || board[x[0]][x[1]]=="K_B"
-	end
+	#@moves.each do |x|
+	#	puts "King is in check" if board[x[0]][x[1]]=="K_W" || board[x[0]][x[1]]=="K_B"
+	#end
 end
 
 def find_left_moves
@@ -49,7 +49,6 @@ def find_left_moves
 	y=self.pos[1]-1
 	while y>-1 && board[x][y]!=nil do	  
       @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
-      #needs this line to prevent it from going on
       y=-1 if (@own_pieces.include? (board[x][y])) ==true
       y-=1		
 	end
