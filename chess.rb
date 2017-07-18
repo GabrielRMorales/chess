@@ -5,10 +5,8 @@ require_relative "pawn.rb"
 require_relative "rook.rb"
 require_relative "bishop.rb"
 require_relative "knight.rb"
-#add in serialization after
-#pieces must alert if the king is in check
-#king must determine if it will be in check (based on potential moves of other pieces) and not allow these moves
-#set up game flow such that it keeps going until a certain point
+require "yaml"
+
 class Chess
 attr_accessor :choice, :board, :counter, :white_turn, :white_pieces, :black_pieces, :white_moves,
 :black_moves, :gameover, :king_is_in_check
@@ -38,12 +36,9 @@ def initialize()
 
   @white_pieces=["PW1","RW1","RW2","K_W","BW1"]
   @black_pieces=["PB1","RB1","RB2","K_B","BB1"]
-
  
   @counter=1
   @white_turn=true
-  #black_pieces and white_pieces should be hashes with each piece name as a symbol-each will
-  #be updated only when that piece is moved
 
 end
 
@@ -67,9 +62,7 @@ def get_user_choice
 	elsif @white_turn==false	
 	  valid=true if @black_pieces.include? (@choice)
 	end
-
   end
-
 end
 
 def get_new_pos	
@@ -78,19 +71,18 @@ def get_new_pos
     new_move = case @choice
       when "PW1"
 	  	@PW1.move(@black_pieces)
-	  	@white_moves[@PW1.sym]=@PW1.get_moves	
+	  	@white_moves[@PW1.sym]=@PW1.get_moves
+	  	promote_pawn(@PW1, 0)	
 	  when "RW1"
 	  	@RW1.find_moves(@black_pieces, @white_pieces)
 	  	@RW1.move	
 	  	@RW1.find_moves(@black_pieces, @white_pieces)
 	  	@white_moves[@RW1.sym]=@RW1.get_moves
-	  	#print "White moves #{@white_moves}"
 	  when "RW2"
 	  	@RW2.find_moves(@black_pieces, @white_pieces)
 	  	@RW2.move	
 	  	@RW2.find_moves(@black_pieces, @white_pieces)
 	  	@white_moves[@RW2.sym]=@RW2.get_moves
-	  	#print "White moves #{@white_moves}"
 	  when "K_W"
 	  	@K_W.find_moves(@white_pieces, @black_moves)
 	  	@K_W.move	
@@ -107,6 +99,7 @@ def get_new_pos
   	  when "PB1"
 	  	@PB1.move(@white_pieces)
 	  	@black_moves[@PB1.sym]=@PB1.get_moves
+	  	promote_pawn(@PB1, 6)
 	  when "RB1"
 	  	@RB1.find_moves(@white_pieces,@black_pieces) 
 	  	@RB1.move
@@ -131,12 +124,33 @@ def get_new_pos
   end
 end
 
+def promote_pawn(x,y)
+	#for white, y should be 0, for black, y should be 6
+    if x.get_pos[0]==y
+	  		puts "Would you like to promote this pawn? Y/N"
+	  		promote=gets.chomp
+	  	if promote=="Y" || promote=="y"
+	  		puts "What piece would you like to promote it to?"
+	  		p=gets.chomp
+        	case p
+          	when "rook"
+          	  x=Rook.new([x.get_pos[0],x.get_pos[1]], x.to_s, @board.grid)
+          	when "queen"
+          	  x=Queen.new([x.get_pos[0],x.get_pos[1]], x.to_s, @board.grid)
+          	when "knight"
+          	  x=Knight.new([x.get_pos[0],x.get_pos[1]], x.to_s, @board.grid)
+          	when "bishop"
+          	  x=Bishop.new([x.get_pos[0],x.get_pos[1]], x.to_s, @board.grid)
+      	  	end
+        end
+	end		
+end
+
 def remove_captured
 	@white_pieces.each do |x|
 		found=false
 		@board.grid.each { |y| 
 			found=true if y.include? x
-
 		}
 		@white_pieces.delete(x) if found==false
 		if x=="K_W" && found==false
@@ -160,7 +174,6 @@ def remove_captured
 end
 
 def king_in_check
-
 	@white_moves.each do |x,y|
 		y.each do |z|
 			puts "Black King is in check" if @board.grid[z[0]][z[1]]=="K_B"
@@ -170,7 +183,7 @@ def king_in_check
 
 	@black_moves.each do |x,y|
 		y.each do |z|
-			puts "Black King is in check" if @board.grid[z[0]][z[1]]=="K_W"
+			puts "White King is in check" if @board.grid[z[0]][z[1]]=="K_W"
 			 @king_is_in_check=true
 		end
 	end
@@ -197,7 +210,64 @@ def is_draw
 	end
 end
 
+def ask_to_load
+	puts "Do you want to load. Y/N"
+	response=gets.chomp
+	if response=="Y" || response=="y"
+		load_game
+	end		
+end
+
+def ask_to_save
+	puts "Do you want to save. Y/N"
+	response=gets.chomp
+	if response=="Y" || response=="y"
+		save
+	end	
+end
+
+def load_game
+    loaded_game=YAML.load_file("save-file.yml")
+
+    @choice=loaded_game[:choice]
+    @board=loaded_game[:board]
+    @counter=loaded_game[:counter]
+    @white_turn=loaded_game[:white_turn]
+    @white_pieces=loaded_game[:white_pieces]
+    @black_pieces=loaded_game[:black_pieces]
+    @white_moves=loaded_game[:white_moves]
+    @black_moves=loaded_game[:black_moves]
+    @gameover=loaded_game[:gameover]
+    @king_is_in_check=loaded_game[:king_is_in_check]
+
+    @PW1=loaded_game[:PW1]
+    @RW1=loaded_game[:RW1]
+    @RW2=loaded_game[:RW2]
+    @K_W=loaded_game[:K_W]
+    @BW1=loaded_game[:BW1]
+    @PB1=loaded_game[:PB1]
+    @RB1=loaded_game[:RB1]
+    @RB2=loaded_game[:RB2]
+    @K_B=loaded_game[:K_B]
+    @BB1=loaded_game[:BB1]
+
+end
+
+def save
+  saved_game={
+  		:choice=>@choice,:board=>@board, :counter=>@counter, :white_turn=>@white_turn,
+  		:white_pieces=>@white_pieces, :black_pieces=>@black_pieces, :white_moves=>@white_moves,
+  		:black_moves=>@black_moves, :gameover=>@gameover, :king_is_in_check=>@king_is_in_check, 
+  		:PW1=>@PW1, :RW1=>@RW1, :RW2=>@RW2, :K_W=>@K_W, :BW1=>@BW1, :PB1=>@PB1, :RB1=>@RB1,
+  		:RB2=>@RB2, :K_B=>@K_B, :BB1=>@BB1, :BB2=>@BB2  		
+    }
+    File.open("save-file.yml","w") do |f|
+      f.write(saved_game.to_yaml)
+    end
+end
+
 def gameflow
+	ask_to_load
 	display_board
   while @gameover==false
 	@counter % 2 ==0 ? @white_turn=false : @white_turn=true
@@ -206,11 +276,11 @@ def gameflow
 	display_board
 	king_in_check
 	is_draw
-	remove_captured
+	remove_captured	
 	@counter+=1
+	ask_to_save
   end
 end
-
 
 end
 
