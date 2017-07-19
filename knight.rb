@@ -1,5 +1,5 @@
 class Knight
-
+#FIX THIS
 attr_accessor :pos, :sym, :moves, :board, :own_pieces
 
 def initialize(pos, sym, board)
@@ -30,16 +30,16 @@ def find_moves(own_pieces)
 	@moves=[]
 	x=self.pos[0]
 	y=self.pos[1]
-	  
+	puts board[x+1][y+2]
     @moves << [x+1,y+2] if (@own_pieces.include? (board[x+1][y+2])) ==false && board[x+1][y+2]!=nil
-    @moves << [x+1,y-2] if (@own_pieces.include? (board[x+1][y-2])) ==false && board[x+1][y-2]!=nil
-    @moves << [x+2,y+1] if (@own_pieces.include? (board[x+2][y+1])) ==false && board[x+2][y+1]!=nil
-    @moves << [x+2,y-1] if (@own_pieces.include? (board[x+2][y-1])) ==false && board[x+2][y-1]!=nil
+   #@moves << [x+1,y-2] if (@own_pieces.include? (board[x+1][y-2])) ==false && board[x+1][y-2]!=nil
+    #@moves << [x+2,y+1] if (@own_pieces.include? (board[x+2][y+1])) ==false && board[x+2][y+1]!=nil
+   # @moves << [x+2,y-1] if (@own_pieces.include? (board[x+2][y-1])) ==false && board[x+2][y-1]!=nil
 
-    @moves << [x-1,y+2] if (@own_pieces.include? (board[x-1][y+2])) ==false && board[x-1][y+2]!=nil
+    #@moves << [x-1,y+2] if (@own_pieces.include? (board[x-1][y+2])) ==false && board[x-1][y+2]!=nil
     @moves << [x-1,y-2] if (@own_pieces.include? (board[x-1][y-2])) ==false && board[x-1][y-2]!=nil
-    @moves << [x-2,y+1] if (@own_pieces.include? (board[x-2][y+1])) ==false && board[x-2][y+1]!=nil
-    @moves << [x-2,y-1] if (@own_pieces.include? (board[x-2][y-1])) ==false && board[x-2][y-1]!=nil
+    #@moves << [x-2,y+1] if (@own_pieces.include? (board[x-2][y+1])) ==false && board[x-2][y+1]!=nil
+    #@moves << [x-2,y-1] if (@own_pieces.include? (board[x-2][y-1])) ==false && board[x-2][y-1]!=nil
     
 	puts "moves: #{@moves}"
 end

@@ -102,7 +102,6 @@ def get_user_choice
 end
 
 def get_new_pos	
-  #based on what piece the user selects, use that pieces move method
   if @white_turn
     new_move = case @choice
       when "PW1"

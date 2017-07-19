@@ -8,8 +8,6 @@ def initialize(pos, sym, board)
 @pos=pos
 @sym=sym
 @board=board
-#set potential moves here
-#normally there are no opening moves to make for rook
 @moves=[]
 end
 
@@ -28,7 +26,6 @@ def move
 	
 end
 
-#defaults need to change for black/white
 def find_moves(opposition_pieces, own_pieces)
 	@opposition_pieces=opposition_pieces
 	@own_pieces=own_pieces
