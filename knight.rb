@@ -6,8 +6,6 @@ def initialize(pos, sym, board)
 @pos=pos
 @sym=sym
 @board=board
-#set potential moves here
-#defaults need to change for black/white
 @moves=[]
 end
 

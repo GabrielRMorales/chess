@@ -28,12 +28,12 @@ end
 def find_moves(opposition_pieces, own_pieces)
 	@opposition_pieces=opposition_pieces
 	@own_pieces=own_pieces
-	#resets moves after each move
 	@moves=[]
 	find_left_moves
 	find_right_moves
 	find_vertical_up_moves
 	find_vertical_down_moves
+
 	find_leftup_moves
 	find_rightup_moves
 	find_leftdown_moves
@@ -47,7 +47,6 @@ def find_left_moves
 	y=self.pos[1]-1
 	while y>-1 && board[x][y]!=nil do	  
       @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
-      #needs this line to prevent it from going on
       y=-1 if (@own_pieces.include? (board[x][y])) ==true
       y-=1		
 	end
@@ -68,7 +67,8 @@ def find_vertical_up_moves
 	x=self.pos[0]-1
 	y=self.pos[1]
 	while x>-1 && board[x][y]!=nil do
-	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false       
+	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false  
+	  x=-1 if (@own_pieces.include? (board[x][y])) ==true     
       x-=1		
 	end
 	
@@ -78,7 +78,8 @@ def find_vertical_down_moves
 	x=self.pos[0]+1
 	y=self.pos[1]
 	while x<8 && board[x][y]!=nil do
-	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false     
+	  @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false  
+	  x=8 if (@own_pieces.include? (board[x][y])) ==true   
       x+=1		
 	end
 end
@@ -86,7 +87,7 @@ end
 def find_leftup_moves
 	x=self.pos[0]-1
 	y=self.pos[1]-1
-	while x!>-1 && y>-1 && board[x][y]!=nil do	  
+	while x>-1 && y>-1 && board[x][y]!=nil do	  
       @moves << [x,y] if (@own_pieces.include? (board[x][y])) ==false
       x=-1 if (@own_pieces.include? (board[x][y])) ==true
       x-=1
